@@ -1,24 +1,28 @@
-// 1. XMLHttpRequest 객체 생성
-var xhr = new XMLHttpRequest();
+// 프로젝트 디렉토리에서 Express 앱을 생성하고 기본 라우팅을 설정합니다.
+const express = require('express');
+const app = express();
+const port = 3000
+// 기본 라우트
+app.get('/', (req, res) => {
+    res.send('Hello, this is the root route!');
+});
 
-// 2. 요청 초기화
-xhr.open('GET', 'https://example.com/data.json', true);
-// GET 방식의 요청을 보내기 위해 'open' 메서드를 사용합니다.
-// 세 번째 매개변수: 비동기 여부 (true: 비동기, false: 동기)
+app.listen(port, () => {
+    console.log(`
+Server is running on port ${port}
+http://localhost:${port}
+`);
+});
 
-// 3. 상태 변화 이벤트 핸들러 등록
-xhr.onreadystatechange = function() {
-    // 4. 요청이 완료되면 실행
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        // 5. 응답 데이터 처리
-        // 서버로부터 받은 응답 데이터는 'responseText'에 저장됩니다.
-        var data = JSON.parse(xhr.responseText); // JSON 데이터를 파싱
-        console.log(data); // 데이터를 콘솔에 출력하거나 다른 작업 수행 가능
-    }
-};
 
-// 6. 요청 보내기
-xhr.send();
+// Ajax 요청을 처리하려면 새로운 엔드포인트(라우트)를 만들어야 합니다. 
+// 예를 들어, 데이터를 JSON 형식으로 제공하는 /data 엔드포인트를 만들어 보겠습니다.
+app.get('/index.html', (req, res) => {
+    // 실제 데이터를 생성하거나 데이터베이스에서 가져와서 JSON 형식으로 응답합니다.
+    const responseData = {
+        message: 'This is the data you requested',
+        value: 42,
+    };
 
-// 7. 코드 실행이 여기까지 진행됩니다. 비동기로 데이터를 가져오는 중입니다.
-// 따라서 요청이 완료되면 위에서 설정한 상태 변화 이벤트 핸들러가 호출됩니다.
+    res.json(responseData);
+});
