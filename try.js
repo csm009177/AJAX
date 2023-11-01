@@ -1,29 +1,28 @@
-const http = require("http");
+const express = require('express');
+const app = express();
+const port = 3000;
 
-const server = http.createServer((req, res) => {
-  // 요청을 처리할 코드를 여기에 추가
+// get
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/nt5.html');
+});
+// post
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.post('/login', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+  // 여기에서 사용자 인증을 수행하고 로그인 여부를 확인합니다.
+
+//   if (/* 사용자가 로그인에 성공했다면 */) {
+//     res.send('로그인 되었습니다.');
+//     } else {
+//     res.send('로그인 실패');
+//     }
 });
 
-server.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
-
-server.on("request", (req, res) => {
-  if (req.url === "/data" && req.method === "GET") {
-    // JSON 데이터를 만듭니다.
-    const responseData = {
-      message: "This is the data you requested",
-      value: 42,
-    };
-
-    // JSON 응답 헤더를 설정합니다.
-    res.setHeader("Content-Type", "application/json");
-
-    // JSON 데이터를 응답으로 보냅니다.
-    res.end(JSON.stringify(responseData));
-  } else {
-    // 다른 요청에 대한 응답 처리
-    res.statusCode = 404;
-    res.end("Not Found");
-  }
+app.listen(port, () => {
+    console.log(`Server is running on port 
+http://localhost:${port}`);
 });
